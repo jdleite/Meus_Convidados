@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.br.meusconvidados.Entities.GuestEntity;
 import com.br.meusconvidados.R;
@@ -42,6 +43,11 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void handleSave(){
+
+        if(!this.validateSave()){
+            return;
+        }
+
         GuestEntity guestEntity = new GuestEntity();
         guestEntity.setName(this.mViewHolder.mEditName.getText().toString());
 
@@ -53,8 +59,21 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
             guestEntity.setConfirmed(GuestConstants.CONFIRMATION.ABSENT);
         }
 
-        this.mGuestBusiness.insert(guestEntity);
+        if(this.mGuestBusiness.insert(guestEntity)){
+            Toast.makeText(getApplicationContext(),getString(R.string.salvo_com_sucesso),Toast.LENGTH_SHORT).show();
+        }else {
 
+            Toast.makeText(getApplicationContext(),getString(R.string.erro_ao_salvar),Toast.LENGTH_SHORT).show();
+        }
+        finish();
+
+    }
+    private Boolean validateSave(){
+        if(this.mViewHolder.mEditName.getText().toString().equals("")){
+            this.mViewHolder.mEditName.setError(getString(R.string.nome_obrigatorio));
+            return false;
+        }
+        return true;
     }
 
     private void setListeners(){
