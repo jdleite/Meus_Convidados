@@ -18,6 +18,7 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
 
     private ViewHolder mViewHolder = new ViewHolder();
     private GuestBusiness mGuestBusiness;
+    private int mGuestId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,60 +32,83 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
         this.mViewHolder.mButtonSave = findViewById(R.id.button_save);
         mGuestBusiness = new GuestBusiness(this);
 
+        this.loadDataFromActivities();
+
 
         this.setListeners();
 
     }
+
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button_save){
+        if (v.getId() == R.id.button_save) {
             this.handleSave();
         }
     }
 
-    private void handleSave(){
+    private void handleSave() {
 
-        if(!this.validateSave()){
+        if (!this.validateSave()) {
             return;
         }
 
         GuestEntity guestEntity = new GuestEntity();
         guestEntity.setName(this.mViewHolder.mEditName.getText().toString());
 
-        if(this.mViewHolder.mRadioNotConfirmed.isChecked()){
+        if (this.mViewHolder.mRadioNotConfirmed.isChecked()) {
             guestEntity.setConfirmed(GuestConstants.CONFIRMATION.NOT_CONFIRMED);
-        }else  if(this.mViewHolder.mRadioPresent.isChecked()){
+        } else if (this.mViewHolder.mRadioPresent.isChecked()) {
             guestEntity.setConfirmed(GuestConstants.CONFIRMATION.PRESENT);
-        }else{
+        } else {
             guestEntity.setConfirmed(GuestConstants.CONFIRMATION.ABSENT);
         }
 
-        if(this.mGuestBusiness.insert(guestEntity)){
-            Toast.makeText(getApplicationContext(),getString(R.string.salvo_com_sucesso),Toast.LENGTH_SHORT).show();
-        }else {
+        if (this.mGuestBusiness.insert(guestEntity)) {
+            Toast.makeText(getApplicationContext(), getString(R.string.salvo_com_sucesso), Toast.LENGTH_SHORT).show();
+        } else {
 
-            Toast.makeText(getApplicationContext(),getString(R.string.erro_ao_salvar),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.erro_ao_salvar), Toast.LENGTH_SHORT).show();
         }
         finish();
 
     }
-    private Boolean validateSave(){
-        if(this.mViewHolder.mEditName.getText().toString().equals("")){
+
+    private Boolean validateSave() {
+        if (this.mViewHolder.mEditName.getText().toString().equals("")) {
             this.mViewHolder.mEditName.setError(getString(R.string.nome_obrigatorio));
             return false;
         }
         return true;
     }
 
-    private void setListeners(){
+    private void loadDataFromActivities() {
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            this.mGuestId = bundle.getInt(GuestConstants.BundleConstants.GUEST_ID);
+
+            GuestEntity guestEntity = this.mGuestBusiness.load(this.mGuestId);
+
+            this.mViewHolder.mEditName.setText(guestEntity.getName());
+
+            if (guestEntity.getConfirmed() == GuestConstants.CONFIRMATION.PRESENT) {
+                this.mViewHolder.mRadioPresent.setChecked(true);
+            } else if (guestEntity.getConfirmed() == GuestConstants.CONFIRMATION.ABSENT) {
+                this.mViewHolder.mRadioAbsent.setChecked(true);
+            } else if (guestEntity.getConfirmed() == GuestConstants.CONFIRMATION.NOT_CONFIRMED) {
+                this.mViewHolder.mRadioNotConfirmed.setChecked(true);
+            }
+        }
+    }
+
+    private void setListeners() {
         this.mViewHolder.mButtonSave.setOnClickListener(this);
     }
 
 
-
-    private static class ViewHolder{
+    private static class ViewHolder {
         EditText mEditName;
-        RadioButton mRadioNotConfirmed,mRadioPresent,mRadioAbsent;
+        RadioButton mRadioNotConfirmed, mRadioPresent, mRadioAbsent;
         Button mButtonSave;
 
     }
