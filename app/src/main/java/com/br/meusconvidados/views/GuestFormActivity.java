@@ -18,7 +18,7 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
 
     private ViewHolder mViewHolder = new ViewHolder();
     private GuestBusiness mGuestBusiness;
-    private int mGuestId;
+    private int mGuestId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +63,30 @@ public class GuestFormActivity extends AppCompatActivity implements View.OnClick
             guestEntity.setConfirmed(GuestConstants.CONFIRMATION.ABSENT);
         }
 
-        if (this.mGuestBusiness.insert(guestEntity)) {
-            Toast.makeText(getApplicationContext(), getString(R.string.salvo_com_sucesso), Toast.LENGTH_SHORT).show();
-        } else {
+        if(this.mGuestId == 0){
+            if (this.mGuestBusiness.insert(guestEntity)) {
+                Toast.makeText(getApplicationContext(), getString(R.string.salvo_com_sucesso), Toast.LENGTH_SHORT).show();
+            } else {
 
-            Toast.makeText(getApplicationContext(), getString(R.string.erro_ao_salvar), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.erro_ao_salvar), Toast.LENGTH_SHORT).show();
+            }
+
+        }else {
+
+            guestEntity.setId(this.mGuestId);
+
+            if (this.mGuestBusiness.update(guestEntity)) {
+                Toast.makeText(getApplicationContext(), getString(R.string.salvo_com_sucesso), Toast.LENGTH_SHORT).show();
+            } else {
+
+                Toast.makeText(getApplicationContext(), getString(R.string.erro_ao_salvar), Toast.LENGTH_SHORT).show();
+            }
+
         }
+
+
+
+
         finish();
 
     }

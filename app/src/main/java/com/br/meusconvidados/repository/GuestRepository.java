@@ -111,5 +111,45 @@ public class GuestRepository {
 
     }
 
+    public Boolean update(GuestEntity guestEntity) {
+        try {
+            SQLiteDatabase db = this.mGuestDatabaseHelper.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(DataBaseConstants.GUEST.COLUMNS.NAME, guestEntity.getName());
+            cv.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guestEntity.getConfirmed());
+
+            String selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
+            String[] selectionArgs = {String.valueOf(guestEntity.getId())};
+
+            db.update(DataBaseConstants.GUEST.TABLE_NAME, cv, selection, selectionArgs);
+
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    public Boolean remove(int id){
+        try {
+            SQLiteDatabase sqLiteDatabase = mGuestDatabaseHelper.getWritableDatabase();
+
+            String whereClause = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
+
+            String[] whereArgs  = {String.valueOf(id)};
+
+            sqLiteDatabase.delete(DataBaseConstants.GUEST.TABLE_NAME,whereClause,whereArgs);
+
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 
 }
