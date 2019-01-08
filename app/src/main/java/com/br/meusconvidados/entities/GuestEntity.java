@@ -1,4 +1,4 @@
-package com.br.meusconvidados.Entities;
+package com.br.meusconvidados.entities;
 
 public class GuestEntity {
 

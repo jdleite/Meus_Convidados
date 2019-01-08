@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.R;
 import com.br.meusconvidados.listener.OnGuestListenerInteractionListener;
 import com.br.meusconvidados.viewHolder.GuestViewHolder;

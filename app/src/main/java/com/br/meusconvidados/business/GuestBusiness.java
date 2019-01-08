@@ -2,7 +2,8 @@ package com.br.meusconvidados.business;
 
 import android.content.Context;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestCount;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.constats.DataBaseConstants;
 import com.br.meusconvidados.constats.GuestConstants;
 import com.br.meusconvidados.repository.GuestRepository;
@@ -34,6 +35,10 @@ public class GuestBusiness {
 
     return  this.mGuestRepository.load(id);
 
+    }
+
+    public GuestCount loadDashBoard(){
+        return this.mGuestRepository.loadDashBoard();
     }
 
     public List<GuestEntity> getInvited(){

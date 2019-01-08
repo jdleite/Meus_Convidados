@@ -2,7 +2,6 @@ package com.br.meusconvidados.views;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.R;
 import com.br.meusconvidados.adapter.GuestListAdapter;
 import com.br.meusconvidados.business.GuestBusiness;
@@ -25,6 +25,7 @@ public class PresentFragment extends Fragment {
 
     private ViewHolder mViewHolder = new ViewHolder();
     private GuestBusiness mGuestBusiness;
+    private OnGuestListenerInteractionListener mOnGuestListenerInteractionListener;
 
 
     @Override
@@ -44,7 +45,7 @@ public class PresentFragment extends Fragment {
 
         this.mGuestBusiness = new GuestBusiness(context);
 
-        OnGuestListenerInteractionListener listener = new OnGuestListenerInteractionListener() {
+       mOnGuestListenerInteractionListener = new OnGuestListenerInteractionListener() {
             @Override
             public void onListClick(int id) {
 
@@ -64,16 +65,18 @@ public class PresentFragment extends Fragment {
             @Override
             public void onDeleteClick(int id) {
 
+                mGuestBusiness.remove(id);
+
+                Toast.makeText(getContext(),getString(R.string.convidado_removido_suesso),Toast.LENGTH_SHORT).show();
+
+                loadGuests();
+
             }
 
         };
 
 
-        List<GuestEntity> guestEntityList = this.mGuestBusiness.getPresent();
 
-
-        GuestListAdapter guestListAdapter = new GuestListAdapter(guestEntityList, listener);
-        mViewHolder.mRecyclerAllPresent.setAdapter(guestListAdapter);
 
         this.mViewHolder.mRecyclerAllPresent.setLayoutManager(new LinearLayoutManager(context));
 
@@ -83,5 +86,25 @@ public class PresentFragment extends Fragment {
     private static class ViewHolder {
         RecyclerView mRecyclerAllPresent;
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadGuests();
+
+    }
+
+    private void loadGuests(){
+        List<GuestEntity> guestEntityList = this.mGuestBusiness.getPresent();
+
+
+        GuestListAdapter guestListAdapter = new GuestListAdapter(guestEntityList, mOnGuestListenerInteractionListener);
+        mViewHolder.mRecyclerAllPresent.setAdapter(guestListAdapter);
+        guestListAdapter.notifyDataSetChanged();
+
+    }
+
 
 }

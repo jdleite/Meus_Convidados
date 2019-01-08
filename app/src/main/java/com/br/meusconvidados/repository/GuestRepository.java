@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestCount;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.constats.DataBaseConstants;
+import com.br.meusconvidados.constats.GuestConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,22 +135,72 @@ public class GuestRepository {
 
     }
 
-    public Boolean remove(int id){
+    public Boolean remove(int id) {
         try {
             SQLiteDatabase sqLiteDatabase = mGuestDatabaseHelper.getWritableDatabase();
 
             String whereClause = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
 
-            String[] whereArgs  = {String.valueOf(id)};
+            String[] whereArgs = {String.valueOf(id)};
 
-            sqLiteDatabase.delete(DataBaseConstants.GUEST.TABLE_NAME,whereClause,whereArgs);
+            sqLiteDatabase.delete(DataBaseConstants.GUEST.TABLE_NAME, whereClause, whereArgs);
 
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return false;
+    }
+
+
+    public GuestCount loadDashBoard() {
+
+        GuestCount guestCount = new GuestCount(0, 0, 0);
+        Cursor cursor;
+        try {
+
+            SQLiteDatabase sqLiteDatabase = mGuestDatabaseHelper.getReadableDatabase();
+
+            String queryPresence = "select count (*) from " + DataBaseConstants.GUEST.TABLE_NAME + " where " +
+                    DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = " + GuestConstants.CONFIRMATION.PRESENT;
+
+            cursor = sqLiteDatabase.rawQuery(queryPresence, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                guestCount.setPresentCount(cursor.getInt(0));
+            }
+
+            String queryAbsent = "select count (*) from " + DataBaseConstants.GUEST.TABLE_NAME + " where " +
+                    DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = " + GuestConstants.CONFIRMATION.ABSENT;
+
+            cursor = sqLiteDatabase.rawQuery(queryAbsent, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                guestCount.setAbsentCount(cursor.getInt(0));
+            }
+
+            String queryAllInvited = "select count (*) from " + DataBaseConstants.GUEST.TABLE_NAME;
+
+            cursor = sqLiteDatabase.rawQuery(queryAllInvited, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                guestCount.setAllInvitedCount(cursor.getInt(0));
+            }
+
+
+            return guestCount;
+
+        } catch (Exception e) {
+
+            return guestCount;
+
+        }
+
+
     }
 
 

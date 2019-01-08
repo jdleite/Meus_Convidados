@@ -2,14 +2,13 @@ package com.br.meusconvidados.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.R;
 import com.br.meusconvidados.business.GuestBusiness;
 import com.br.meusconvidados.constats.GuestConstants;

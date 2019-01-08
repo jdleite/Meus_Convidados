@@ -2,7 +2,6 @@ package com.br.meusconvidados.views;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.br.meusconvidados.Entities.GuestEntity;
+import com.br.meusconvidados.entities.GuestEntity;
 import com.br.meusconvidados.R;
 import com.br.meusconvidados.adapter.GuestListAdapter;
 import com.br.meusconvidados.business.GuestBusiness;
@@ -25,6 +25,7 @@ public class AbsentFragment extends Fragment {
 
     private ViewHolder mViewHolder = new ViewHolder();
     private GuestBusiness mGuestBusiness;
+    private OnGuestListenerInteractionListener mOnGuestListenerInteractionListener;
 
 
     @Override
@@ -37,7 +38,7 @@ public class AbsentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_absent, container, false);
+        View view = inflater.inflate(R.layout.fragment_absent, container, false);
 
         Context context = view.getContext();
 
@@ -45,7 +46,7 @@ public class AbsentFragment extends Fragment {
 
         this.mGuestBusiness = new GuestBusiness(context);
 
-        OnGuestListenerInteractionListener listener = new OnGuestListenerInteractionListener() {
+        mOnGuestListenerInteractionListener= new OnGuestListenerInteractionListener() {
             @Override
             public void onListClick(int id) {
 
@@ -65,16 +66,16 @@ public class AbsentFragment extends Fragment {
             @Override
             public void onDeleteClick(int id) {
 
+                mGuestBusiness.remove(id);
+
+                Toast.makeText(getContext(),getString(R.string.convidado_removido_suesso),Toast.LENGTH_SHORT).show();
+
+                loadGuests();
+
             }
 
         };
 
-
-        List<GuestEntity> guestEntityList = this.mGuestBusiness.getAbsent();
-
-
-        GuestListAdapter guestListAdapter = new GuestListAdapter(guestEntityList, listener);
-        mViewHolder.mRecyclerAllAbsent.setAdapter(guestListAdapter);
 
         this.mViewHolder.mRecyclerAllAbsent.setLayoutManager(new LinearLayoutManager(context));
 
@@ -85,4 +86,22 @@ public class AbsentFragment extends Fragment {
         RecyclerView mRecyclerAllAbsent;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadGuests();
+
+
+    }
+
+    private void loadGuests(){
+
+        List<GuestEntity> guestEntityList = this.mGuestBusiness.getAbsent();
+
+
+        GuestListAdapter guestListAdapter = new GuestListAdapter(guestEntityList, mOnGuestListenerInteractionListener);
+        mViewHolder.mRecyclerAllAbsent.setAdapter(guestListAdapter);
+        guestListAdapter.notifyDataSetChanged();
+    }
 }
