@@ -32,6 +32,7 @@ public class GuestRepository {
             SQLiteDatabase db = this.mGuestDatabaseHelper.getWritableDatabase();
             ContentValues cv = new ContentValues();
             cv.put(DataBaseConstants.GUEST.COLUMNS.NAME, guestEntity.getName());
+            cv.put(DataBaseConstants.GUEST.COLUMNS.DOCUMENT, guestEntity.getDocument());
             cv.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guestEntity.getConfirmed());
 
             db.insert(DataBaseConstants.GUEST.TABLE_NAME, null, cv);
@@ -53,6 +54,7 @@ public class GuestRepository {
 
                     DataBaseConstants.GUEST.COLUMNS.ID,
                     DataBaseConstants.GUEST.COLUMNS.NAME,
+                    DataBaseConstants.GUEST.COLUMNS.DOCUMENT,
                     DataBaseConstants.GUEST.COLUMNS.PRESENCE,
 
 
@@ -68,6 +70,7 @@ public class GuestRepository {
                 cursor.moveToFirst();
                 guestEntity.setId(cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID)));
                 guestEntity.setName(cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME)));
+                guestEntity.setDocument(cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.DOCUMENT)));
                 guestEntity.setConfirmed(cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE)));
             }
 
@@ -118,6 +121,7 @@ public class GuestRepository {
             SQLiteDatabase db = this.mGuestDatabaseHelper.getWritableDatabase();
             ContentValues cv = new ContentValues();
             cv.put(DataBaseConstants.GUEST.COLUMNS.NAME, guestEntity.getName());
+            cv.put(DataBaseConstants.GUEST.COLUMNS.DOCUMENT, guestEntity.getDocument());
             cv.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guestEntity.getConfirmed());
 
             String selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";

@@ -26,4 +26,5 @@
     <string name="nao">Não</string>
     <string name="total">Total</string>
     <string name="convidado_removido_suesso">Convidado removido com sucesso</string>
+    <string name="documento">Documento</string>
 </resources>

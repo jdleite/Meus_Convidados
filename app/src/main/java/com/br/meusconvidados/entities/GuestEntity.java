@@ -4,14 +4,24 @@ public class GuestEntity {
 
     private int id;
     private String name;
+    private String document;
     private int confirmed;
 
     public GuestEntity(){}
 
-    public GuestEntity(int id, String name, int confirmed) {
+    public GuestEntity(int id, String name,String document, int confirmed) {
         this.id = id;
         this.name = name;
+        this.document = document;
         this.confirmed = confirmed;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     public int getId() {
