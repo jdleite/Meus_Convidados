@@ -9,7 +9,8 @@
         android:id="@+id/linear_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,21 +21,30 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/presentes"/>
+                android:gravity="center"
+                android:text="@string/presentes"
+                android:textColor="@color/colorTextPresent"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ausentes"/>
+                android:textColor="@color/colorTextAbsent"
+                style="@style/textEditInvited"
+                android:text="@string/ausentes" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/total"/>
+                android:textColor="@color/colorTextTotal"
+                style="@style/textEditInvited"
+                android:text="@string/total" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,25 +55,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/presentes"/>
+                android:textColor="@color/colorTextPresent"
+                style="@style/textEditInvitedContagem"
+                android:text="@string/presentes" />
 
             <TextView
 
                 android:id="@+id/text_absent_count"
                 android:layout_width="0dp"
+                android:textColor="@color/colorTextAbsent"
+                style="@style/textEditInvitedContagem"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ausentes"/>
+                android:text="@string/ausentes" />
 
             <TextView
                 android:id="@+id/text_all_invited_count"
                 android:layout_width="0dp"
+                android:textColor="@color/colorTextTotal"
+                style="@style/textEditInvitedContagem"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/total"/>
+                android:text="@string/total" />
 
         </LinearLayout>
     </LinearLayout>
+
+
+
 
 
 

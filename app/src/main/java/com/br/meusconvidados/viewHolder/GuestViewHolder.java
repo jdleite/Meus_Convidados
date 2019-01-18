@@ -43,7 +43,7 @@ public class GuestViewHolder extends RecyclerView.ViewHolder {
                 new AlertDialog.Builder(mContext)
                         .setTitle(mContext.getString(R.string.remocao_convidado))
                         .setMessage(mContext.getString(R.string.deseja_remover))
-                        .setIcon(R.drawable.ic_menu_camera)
+                        .setIcon(R.drawable.remove)
                         .setPositiveButton(mContext.getString(R.string.sim), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

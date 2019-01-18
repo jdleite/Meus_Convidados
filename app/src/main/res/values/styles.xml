@@ -32,6 +32,19 @@
         <item name="android:textSize">20sp</item>
 
     </style>
+    <style name="textEditInvited" parent="@android:style/TextAppearance">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+    <style name="textEditInvitedContagem" parent="@android:style/TextAppearance">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">25sp</item>
+
+    </style>
+
+
 
 
 </resources>
